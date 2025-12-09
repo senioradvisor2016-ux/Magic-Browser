@@ -1,0 +1,12 @@
+#!/bin/bash
+# Atlas Browser pre-removal script
+
+set -e
+
+# Remove alternatives
+if command -v update-alternatives &> /dev/null; then
+    update-alternatives --remove x-www-browser /opt/atlas-browser/atlas || true
+    update-alternatives --remove gnome-www-browser /opt/atlas-browser/atlas || true
+fi
+
+exit 0

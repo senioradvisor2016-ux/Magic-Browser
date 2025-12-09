@@ -1,0 +1,30 @@
+#!/bin/bash
+# Atlas Browser post-installation script
+
+set -e
+
+# Update desktop database
+if command -v update-desktop-database &> /dev/null; then
+    update-desktop-database /usr/share/applications || true
+fi
+
+# Update icon cache
+if command -v gtk-update-icon-cache &> /dev/null; then
+    gtk-update-icon-cache -f -t /usr/share/icons/hicolor || true
+fi
+
+# Update MIME database
+if command -v update-mime-database &> /dev/null; then
+    update-mime-database /usr/share/mime || true
+fi
+
+# Set up alternatives for x-www-browser
+if command -v update-alternatives &> /dev/null; then
+    update-alternatives --install /usr/bin/x-www-browser x-www-browser /opt/atlas-browser/atlas 100 || true
+    update-alternatives --install /usr/bin/gnome-www-browser gnome-www-browser /opt/atlas-browser/atlas 100 || true
+fi
+
+echo "Atlas Browser has been installed successfully!"
+echo "You can start it from the applications menu or by running: atlas-browser"
+
+exit 0

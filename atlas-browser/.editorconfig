@@ -1,0 +1,53 @@
+# Atlas Browser EditorConfig
+# https://editorconfig.org
+
+root = true
+
+# Default settings for all files
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# C++ files (Chromium style)
+[*.{cc,h,mm}]
+indent_size = 2
+
+# GN build files
+[*.{gn,gni}]
+indent_size = 2
+
+# Python files
+[*.py]
+indent_size = 4
+
+# Shell scripts
+[*.sh]
+indent_size = 2
+
+# Makefiles
+[Makefile]
+indent_style = tab
+
+# Markdown
+[*.md]
+trim_trailing_whitespace = false
+
+# JSON
+[*.json]
+indent_size = 2
+
+# YAML
+[*.{yml,yaml}]
+indent_size = 2
+
+# XML/Plist
+[*.{xml,plist,grd}]
+indent_size = 2
+
+# HTML/CSS/JS
+[*.{html,css,js}]
+indent_size = 2

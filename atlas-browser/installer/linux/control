@@ -1,0 +1,19 @@
+Package: atlas-browser
+Version: 1.0.0
+Section: web
+Priority: optional
+Architecture: amd64
+Depends: libc6 (>= 2.17), libglib2.0-0 (>= 2.12.0), libgtk-3-0 (>= 3.9.10), libnss3 (>= 3.26), libnspr4 (>= 4.9), libx11-6, libxcomposite1, libxdamage1, libxext6, libxfixes3, libxrandr2, libxcb1, libxkbcommon0, libasound2, libatk1.0-0, libatk-bridge2.0-0, libatspi2.0-0, libcairo2, libcups2, libdbus-1-3, libdrm2, libexpat1, libgbm1, libpango-1.0-0, libpangocairo-1.0-0
+Installed-Size: 250000
+Maintainer: Atlas Browser Authors <support@atlasbrowser.com>
+Homepage: https://atlasbrowser.com
+Description: AI-powered browser with built-in agent capabilities
+ Atlas Browser is a Chromium-based web browser with an integrated AI agent
+ that can help you automate tasks, navigate the web, and interact with
+ web pages using natural language.
+ .
+ Features:
+  - AI Agent for browser automation
+  - Privacy protection with tracker blocking
+  - Modern, clean interface
+  - Cross-platform support

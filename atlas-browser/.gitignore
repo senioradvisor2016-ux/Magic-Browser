@@ -1,0 +1,95 @@
+# =============================================================================
+# Atlas Browser .gitignore
+# =============================================================================
+
+# Build outputs
+out/
+build/
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Generated files
+*.pyc
+*.pyo
+__pycache__/
+*.gen.cc
+*.gen.h
+gen/
+obj/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.sublime-*
+
+# Chromium build
+chromium/
+depot_tools/
+*.gclient
+.gclient_entries
+.cipd/
+
+# Logs
+*.log
+logs/
+
+# Test outputs
+test_results/
+coverage/
+*.gcov
+*.gcda
+*.gcno
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Package files
+*.deb
+*.rpm
+*.dmg
+*.pkg
+*.msi
+*.zip
+*.tar.gz
+*.tar.xz
+
+# API keys and secrets
+*.key
+*.pem
+secrets.json
+api_keys.h
+
+# Local configuration
+local.gn
+local_args.gn
+*.local
+
+# Node modules (for any tooling)
+node_modules/
+
+# Python virtual environments
+venv/
+.venv/
+env/
+
+# Crashpad/crash dumps
+*.dmp
+crash_reports/
+
+# Profile data
+Default/
+Profile*/
