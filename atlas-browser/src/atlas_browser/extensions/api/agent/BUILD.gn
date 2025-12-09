@@ -1,0 +1,31 @@
+# Copyright 2025 Atlas Browser Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license.
+
+import("//extensions/buildflags/buildflags.gni")
+
+# =============================================================================
+# Atlas Agent Extension API
+# =============================================================================
+
+source_set("agent_api") {
+  sources = [
+    "agent_api.cc",
+    "agent_api.h",
+  ]
+  
+  deps = [
+    "//atlas-browser/src/atlas_browser/features/llm_agent",
+    "//base",
+    "//chrome/browser/profiles",
+    "//content/public/browser",
+    "//extensions/browser",
+  ]
+}
+
+# API schema
+generated_types("api_generated") {
+  schema_files = [ "agent.json" ]
+  root_namespace = "atlas::api::%(namespace)s"
+  
+  deps = [ "//extensions/buildflags" ]
+}

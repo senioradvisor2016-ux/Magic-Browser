@@ -1,0 +1,461 @@
+[
+  {
+    "namespace": "atlas.agent",
+    "description": "Atlas Browser AI Agent API. Allows extensions to run automated tasks using AI.",
+    "types": [
+      {
+        "id": "TaskOptions",
+        "type": "object",
+        "description": "Options for running an agent task.",
+        "properties": {
+          "maxSteps": {
+            "type": "integer",
+            "description": "Maximum number of steps (default: 50).",
+            "optional": true
+          },
+          "timeout": {
+            "type": "integer",
+            "description": "Timeout in milliseconds (default: 300000).",
+            "optional": true
+          },
+          "enableVision": {
+            "type": "boolean",
+            "description": "Use screenshots for visual understanding (default: true).",
+            "optional": true
+          }
+        }
+      },
+      {
+        "id": "TaskResult",
+        "type": "object",
+        "description": "Result of an agent task.",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["completed", "failed", "cancelled"],
+            "description": "Final status of the task."
+          },
+          "answer": {
+            "type": "string",
+            "description": "Final answer or summary from the agent.",
+            "optional": true
+          },
+          "duration": {
+            "type": "number",
+            "description": "Total duration in seconds."
+          },
+          "steps": {
+            "type": "array",
+            "items": { "$ref": "TaskStep" },
+            "description": "Steps taken during the task."
+          }
+        }
+      },
+      {
+        "id": "TaskStep",
+        "type": "object",
+        "description": "A single step in a task execution.",
+        "properties": {
+          "stepNumber": {
+            "type": "integer",
+            "description": "Step number (1-based)."
+          },
+          "thought": {
+            "type": "string",
+            "description": "Agent's reasoning for this step."
+          },
+          "actionType": {
+            "type": "string",
+            "description": "Type of action performed."
+          },
+          "selector": {
+            "type": "string",
+            "description": "CSS selector for target element.",
+            "optional": true
+          },
+          "value": {
+            "type": "string",
+            "description": "Value used in the action.",
+            "optional": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Whether the action succeeded."
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message if action failed.",
+            "optional": true
+          }
+        }
+      },
+      {
+        "id": "ElementInfo",
+        "type": "object",
+        "description": "Information about a DOM element.",
+        "properties": {
+          "tag": {
+            "type": "string",
+            "description": "HTML tag name."
+          },
+          "id": {
+            "type": "string",
+            "description": "Element ID.",
+            "optional": true
+          },
+          "class": {
+            "type": "string",
+            "description": "Element class names.",
+            "optional": true
+          },
+          "text": {
+            "type": "string",
+            "description": "Visible text content.",
+            "optional": true
+          },
+          "selector": {
+            "type": "string",
+            "description": "CSS selector to target this element."
+          },
+          "visible": {
+            "type": "boolean",
+            "description": "Whether element is visible."
+          },
+          "clickable": {
+            "type": "boolean",
+            "description": "Whether element is clickable."
+          },
+          "bounds": {
+            "type": "object",
+            "description": "Bounding box.",
+            "properties": {
+              "x": { "type": "integer" },
+              "y": { "type": "integer" },
+              "width": { "type": "integer" },
+              "height": { "type": "integer" }
+            }
+          }
+        }
+      },
+      {
+        "id": "Action",
+        "type": "object",
+        "description": "An action to perform on the page.",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["click", "type", "scroll", "hover", "navigate"],
+            "description": "Type of action."
+          },
+          "selector": {
+            "type": "string",
+            "description": "CSS selector for target element.",
+            "optional": true
+          },
+          "value": {
+            "type": "string",
+            "description": "Value for type/navigate actions.",
+            "optional": true
+          },
+          "x": {
+            "type": "integer",
+            "description": "X coordinate for click.",
+            "optional": true
+          },
+          "y": {
+            "type": "integer",
+            "description": "Y coordinate for click.",
+            "optional": true
+          }
+        }
+      },
+      {
+        "id": "ActionResult",
+        "type": "object",
+        "description": "Result of performing an action.",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Whether action succeeded."
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message if failed.",
+            "optional": true
+          }
+        }
+      },
+      {
+        "id": "AgentStatus",
+        "type": "object",
+        "description": "Status of the agent service.",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether agent is enabled."
+          },
+          "provider": {
+            "type": "string",
+            "description": "Current LLM provider."
+          },
+          "model": {
+            "type": "string",
+            "description": "Current model name."
+          },
+          "runningTasks": {
+            "type": "integer",
+            "description": "Number of running tasks."
+          }
+        }
+      },
+      {
+        "id": "AgentConfig",
+        "type": "object",
+        "description": "Agent configuration.",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "enum": ["anthropic", "openai", "local"],
+            "description": "LLM provider.",
+            "optional": true
+          },
+          "model": {
+            "type": "string",
+            "description": "Model name.",
+            "optional": true
+          },
+          "apiKey": {
+            "type": "string",
+            "description": "API key for the provider.",
+            "optional": true
+          },
+          "maxSteps": {
+            "type": "integer",
+            "description": "Maximum steps per task.",
+            "optional": true
+          },
+          "enableVision": {
+            "type": "boolean",
+            "description": "Enable screenshot understanding.",
+            "optional": true
+          }
+        }
+      }
+    ],
+    "functions": [
+      {
+        "name": "runTask",
+        "type": "function",
+        "description": "Run an AI agent task on the current tab.",
+        "parameters": [
+          {
+            "name": "task",
+            "type": "string",
+            "description": "Natural language description of the task."
+          },
+          {
+            "name": "options",
+            "$ref": "TaskOptions",
+            "description": "Task options.",
+            "optional": true
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "$ref": "TaskResult"
+            }
+          ]
+        }
+      },
+      {
+        "name": "cancelTask",
+        "type": "function",
+        "description": "Cancel a running agent task.",
+        "parameters": [
+          {
+            "name": "taskId",
+            "type": "string",
+            "description": "ID of the task to cancel."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "success",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      {
+        "name": "queryPage",
+        "type": "function",
+        "description": "Query the current page with natural language.",
+        "parameters": [
+          {
+            "name": "question",
+            "type": "string",
+            "description": "Natural language question about the page."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "answer",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "getElements",
+        "type": "function",
+        "description": "Get interactive elements from the current page.",
+        "parameters": [
+          {
+            "name": "options",
+            "type": "object",
+            "optional": true,
+            "properties": {
+              "selector": {
+                "type": "string",
+                "description": "Filter by CSS selector.",
+                "optional": true
+              },
+              "includeHidden": {
+                "type": "boolean",
+                "description": "Include hidden elements.",
+                "optional": true
+              }
+            }
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "elements",
+              "type": "array",
+              "items": { "$ref": "ElementInfo" }
+            }
+          ]
+        }
+      },
+      {
+        "name": "performAction",
+        "type": "function",
+        "description": "Perform a single action on the page.",
+        "parameters": [
+          {
+            "name": "action",
+            "$ref": "Action",
+            "description": "The action to perform."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "result",
+              "$ref": "ActionResult"
+            }
+          ]
+        }
+      },
+      {
+        "name": "getStatus",
+        "type": "function",
+        "description": "Get the status of the agent service.",
+        "parameters": [],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "status",
+              "$ref": "AgentStatus"
+            }
+          ]
+        }
+      },
+      {
+        "name": "configure",
+        "type": "function",
+        "description": "Configure the agent service.",
+        "parameters": [
+          {
+            "name": "config",
+            "$ref": "AgentConfig",
+            "description": "Configuration options."
+          }
+        ],
+        "returns_async": {
+          "name": "callback",
+          "parameters": [
+            {
+              "name": "success",
+              "type": "boolean"
+            }
+          ]
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "onTaskStarted",
+        "type": "function",
+        "description": "Fired when an agent task starts.",
+        "parameters": [
+          {
+            "name": "taskId",
+            "type": "string",
+            "description": "ID of the task."
+          },
+          {
+            "name": "task",
+            "type": "string",
+            "description": "Task description."
+          }
+        ]
+      },
+      {
+        "name": "onTaskProgress",
+        "type": "function",
+        "description": "Fired when an agent task makes progress.",
+        "parameters": [
+          {
+            "name": "taskId",
+            "type": "string",
+            "description": "ID of the task."
+          },
+          {
+            "name": "step",
+            "$ref": "TaskStep",
+            "description": "The step that was completed."
+          }
+        ]
+      },
+      {
+        "name": "onTaskCompleted",
+        "type": "function",
+        "description": "Fired when an agent task completes.",
+        "parameters": [
+          {
+            "name": "taskId",
+            "type": "string",
+            "description": "ID of the task."
+          },
+          {
+            "name": "result",
+            "$ref": "TaskResult",
+            "description": "The task result."
+          }
+        ]
+      }
+    ]
+  }
+]

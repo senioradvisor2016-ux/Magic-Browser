@@ -31,6 +31,7 @@ executable("atlas_browser_exe") {
   output_name = "atlas"
   
   sources = [
+    # Main entry points
     "src/atlas_browser/browser/atlas_main.cc",
     "src/atlas_browser/browser/atlas_main_delegate.cc",
     "src/atlas_browser/browser/atlas_main_delegate.h",
@@ -38,6 +39,33 @@ executable("atlas_browser_exe") {
     "src/atlas_browser/browser/atlas_content_browser_client.h",
     "src/atlas_browser/browser/atlas_browser_main_parts.cc",
     "src/atlas_browser/browser/atlas_browser_main_parts.h",
+    
+    # Preferences
+    "src/atlas_browser/browser/atlas_prefs.cc",
+    "src/atlas_browser/browser/atlas_prefs.h",
+    
+    # Command IDs and keyboard shortcuts
+    "src/atlas_browser/browser/atlas_command_ids.h",
+    "src/atlas_browser/browser/atlas_keyboard_shortcuts.cc",
+    "src/atlas_browser/browser/atlas_keyboard_shortcuts.h",
+    
+    # Update system
+    "src/atlas_browser/browser/update/atlas_update_client.cc",
+    "src/atlas_browser/browser/update/atlas_update_client.h",
+    
+    # UI Views
+    "src/atlas_browser/browser/ui/views/agent_panel_view.cc",
+    "src/atlas_browser/browser/ui/views/agent_panel_view.h",
+    "src/atlas_browser/browser/ui/views/atlas_toolbar_view.cc",
+    "src/atlas_browser/browser/ui/views/atlas_toolbar_view.h",
+    
+    # WebUI
+    "src/atlas_browser/browser/ui/webui/atlas_settings_ui.cc",
+    "src/atlas_browser/browser/ui/webui/atlas_settings_ui.h",
+    
+    # Renderer client
+    "src/atlas_browser/common/atlas_content_renderer_client.cc",
+    "src/atlas_browser/common/atlas_content_renderer_client.h",
   ]
   
   deps = [
@@ -130,9 +158,13 @@ if (is_mac) {
 
 test("atlas_browser_unittests") {
   sources = [
+    # Agent tests
     "src/atlas_browser/features/llm_agent/browser/agent_service_unittest.cc",
     "src/atlas_browser/features/llm_agent/browser/llm_client_unittest.cc",
     "src/atlas_browser/features/llm_agent/renderer/dom_extractor_unittest.cc",
+    
+    # Privacy tests
+    "src/atlas_browser/features/privacy/tracker_blocker_unittest.cc",
   ]
   
   deps = [
@@ -140,6 +172,8 @@ test("atlas_browser_unittests") {
     "//base/test:test_support",
     "//content/test:test_support",
     "//testing/gtest",
+    "//testing/gmock",
+    "//url",
   ]
 }
 

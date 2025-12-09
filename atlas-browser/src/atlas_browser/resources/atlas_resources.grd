@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Atlas Browser Resource File
+  
+  This file defines all non-string resources (icons, images, etc.)
+  for Atlas Browser.
+-->
+<grit latest_public_release="0" current_release="1"
+      output_all_resource_defines="false">
+  <outputs>
+    <output filename="grit/atlas_resources.h" type="rc_header">
+      <emit emit_type='prepend'></emit>
+    </output>
+    <output filename="atlas_resources.pak" type="data_package" />
+  </outputs>
+  <release seq="1">
+    <includes>
+      <!-- ================================================================== -->
+      <!-- Application Icons -->
+      <!-- ================================================================== -->
+      
+      <include name="IDR_ATLAS_ICON_16" file="icons/atlas_16.png" type="BINDATA" />
+      <include name="IDR_ATLAS_ICON_32" file="icons/atlas_32.png" type="BINDATA" />
+      <include name="IDR_ATLAS_ICON_48" file="icons/atlas_48.png" type="BINDATA" />
+      <include name="IDR_ATLAS_ICON_64" file="icons/atlas_64.png" type="BINDATA" />
+      <include name="IDR_ATLAS_ICON_128" file="icons/atlas_128.png" type="BINDATA" />
+      <include name="IDR_ATLAS_ICON_256" file="icons/atlas_256.png" type="BINDATA" />
+      
+      <!-- ================================================================== -->
+      <!-- Toolbar Icons -->
+      <!-- ================================================================== -->
+      
+      <include name="IDR_ATLAS_AGENT_ICON" file="icons/agent_icon.png" type="BINDATA" />
+      <include name="IDR_ATLAS_AGENT_ICON_ACTIVE" file="icons/agent_icon_active.png" type="BINDATA" />
+      <include name="IDR_ATLAS_PRIVACY_ICON" file="icons/privacy_icon.png" type="BINDATA" />
+      <include name="IDR_ATLAS_PRIVACY_ICON_ACTIVE" file="icons/privacy_icon_active.png" type="BINDATA" />
+      
+      <!-- ================================================================== -->
+      <!-- Status Icons -->
+      <!-- ================================================================== -->
+      
+      <include name="IDR_ATLAS_STATUS_THINKING" file="icons/status_thinking.png" type="BINDATA" />
+      <include name="IDR_ATLAS_STATUS_ACTING" file="icons/status_acting.png" type="BINDATA" />
+      <include name="IDR_ATLAS_STATUS_SUCCESS" file="icons/status_success.png" type="BINDATA" />
+      <include name="IDR_ATLAS_STATUS_ERROR" file="icons/status_error.png" type="BINDATA" />
+      
+      <!-- ================================================================== -->
+      <!-- WebUI Resources -->
+      <!-- ================================================================== -->
+      
+      <include name="IDR_ATLAS_SETTINGS_HTML" file="webui/settings/settings.html" type="BINDATA" />
+      <include name="IDR_ATLAS_SETTINGS_JS" file="webui/settings/settings.js" type="BINDATA" />
+      <include name="IDR_ATLAS_SETTINGS_CSS" file="webui/settings/settings.css" type="BINDATA" />
+      
+      <include name="IDR_ATLAS_NEWTAB_HTML" file="webui/newtab/newtab.html" type="BINDATA" />
+      <include name="IDR_ATLAS_NEWTAB_JS" file="webui/newtab/newtab.js" type="BINDATA" />
+      <include name="IDR_ATLAS_NEWTAB_CSS" file="webui/newtab/newtab.css" type="BINDATA" />
+      
+    </includes>
+  </release>
+</grit>

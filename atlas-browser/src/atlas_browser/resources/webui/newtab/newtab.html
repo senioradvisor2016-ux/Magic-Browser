@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Tab - Atlas Browser</title>
+  <link rel="stylesheet" href="newtab.css">
+</head>
+<body>
+  <div class="newtab-container">
+    <!-- Background -->
+    <div class="background"></div>
+
+    <!-- Main Content -->
+    <main class="content">
+      <!-- Logo -->
+      <div class="logo">
+        <span class="logo-icon">🌐</span>
+        <span class="logo-text">Atlas</span>
+      </div>
+
+      <!-- Search Box -->
+      <div class="search-container">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="Search or enter URL"
+            autofocus
+          >
+          <button class="agent-btn" id="agent-search" title="Search with AI Agent">
+            🤖
+          </button>
+        </div>
+        <div class="search-engines">
+          <button class="engine active" data-engine="google">Google</button>
+          <button class="engine" data-engine="duckduckgo">DuckDuckGo</button>
+          <button class="engine" data-engine="bing">Bing</button>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="shortcuts">
+        <a href="https://mail.google.com" class="shortcut">
+          <div class="shortcut-icon">📧</div>
+          <span class="shortcut-label">Gmail</span>
+        </a>
+        <a href="https://youtube.com" class="shortcut">
+          <div class="shortcut-icon">▶️</div>
+          <span class="shortcut-label">YouTube</span>
+        </a>
+        <a href="https://github.com" class="shortcut">
+          <div class="shortcut-icon">💻</div>
+          <span class="shortcut-label">GitHub</span>
+        </a>
+        <a href="https://twitter.com" class="shortcut">
+          <div class="shortcut-icon">🐦</div>
+          <span class="shortcut-label">Twitter</span>
+        </a>
+        <a href="https://reddit.com" class="shortcut">
+          <div class="shortcut-icon">🔴</div>
+          <span class="shortcut-label">Reddit</span>
+        </a>
+        <a href="https://news.ycombinator.com" class="shortcut">
+          <div class="shortcut-icon">📰</div>
+          <span class="shortcut-label">HN</span>
+        </a>
+        <button class="shortcut add-shortcut" id="add-shortcut">
+          <div class="shortcut-icon">➕</div>
+          <span class="shortcut-label">Add</span>
+        </button>
+      </div>
+
+      <!-- Agent Quick Actions -->
+      <div class="agent-section">
+        <h3>🤖 AI Agent Quick Actions</h3>
+        <div class="agent-actions">
+          <button class="agent-action" data-task="search">
+            🔍 Search for me
+          </button>
+          <button class="agent-action" data-task="summarize">
+            📝 Summarize page
+          </button>
+          <button class="agent-action" data-task="compare">
+            ⚖️ Compare prices
+          </button>
+          <button class="agent-action" data-task="fill">
+            📋 Fill forms
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="stats">
+        <span class="stat">
+          🔒 <span id="trackers-blocked">0</span> trackers blocked
+        </span>
+        <span class="stat">
+          🤖 <span id="tasks-completed">0</span> agent tasks
+        </span>
+      </div>
+      <div class="links">
+        <a href="atlas://settings">Settings</a>
+        <a href="atlas://history">History</a>
+        <a href="atlas://extensions">Extensions</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Agent Modal -->
+  <div class="modal" id="agent-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🤖 AI Agent</h2>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <textarea 
+          id="agent-task-input" 
+          placeholder="Describe what you want me to do..."
+          rows="3"
+        ></textarea>
+        <div class="agent-options">
+          <label>
+            <input type="checkbox" id="agent-vision" checked>
+            Use visual understanding
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="modal-cancel">Cancel</button>
+        <button class="btn-primary" id="modal-start">Start Task</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="newtab.js"></script>
+</body>
+</html>

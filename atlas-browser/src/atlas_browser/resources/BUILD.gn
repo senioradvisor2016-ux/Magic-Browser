@@ -1,0 +1,41 @@
+# Copyright 2025 Atlas Browser Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license.
+
+import("//tools/grit/grit_rule.gni")
+
+# =============================================================================
+# Atlas Browser Resources
+# =============================================================================
+
+grit("atlas_resources") {
+  source = "atlas_resources.grd"
+  outputs = [
+    "grit/atlas_resources.h",
+    "atlas_resources.pak",
+  ]
+  
+  output_dir = "$root_gen_dir/atlas_browser"
+}
+
+grit("atlas_strings") {
+  source = "atlas_strings.grd"
+  outputs = [
+    "grit/atlas_strings.h",
+    "atlas_strings_en-US.pak",
+    "atlas_strings_de.pak",
+    "atlas_strings_es.pak",
+    "atlas_strings_fr.pak",
+    "atlas_strings_ja.pak",
+    "atlas_strings_sv.pak",
+  ]
+  
+  output_dir = "$root_gen_dir/atlas_browser"
+}
+
+# Combined resources group
+group("resources") {
+  deps = [
+    ":atlas_resources",
+    ":atlas_strings",
+  ]
+}

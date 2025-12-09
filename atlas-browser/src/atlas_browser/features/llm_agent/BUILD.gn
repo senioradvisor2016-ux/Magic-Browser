@@ -7,54 +7,50 @@ import("//mojo/public/tools/bindings/mojom.gni")
 # LLM Agent Feature
 # =============================================================================
 
-component("llm_agent") {
-  output_name = "atlas_llm_agent"
-  
+source_set("llm_agent") {
   sources = [
-    # Browser-side
+    # Browser-side components
     "browser/agent_service.cc",
     "browser/agent_service.h",
     "browser/llm_client.cc",
     "browser/llm_client.h",
     "browser/screenshot_capturer.cc",
     "browser/screenshot_capturer.h",
+    "browser/prompts.cc",
+    "browser/prompts.h",
     
-    # Renderer-side
+    # Renderer-side components
     "renderer/agent_injector.cc",
     "renderer/agent_injector.h",
     "renderer/dom_extractor.cc",
     "renderer/dom_extractor.h",
   ]
   
-  deps = [
-    ":agent_mojom",
+  public_deps = [
+    ":agent_mojo",
     "//base",
-    "//components/keyed_service/content",
-    "//components/keyed_service/core",
     "//content/public/browser",
     "//content/public/renderer",
     "//mojo/public/cpp/bindings",
-    "//net",
     "//services/network/public/cpp",
-    "//services/network/public/mojom",
+    "//skia",
     "//third_party/blink/public:blink",
-    "//ui/gfx",
     "//ui/gfx/codec",
     "//url",
   ]
   
-  public_deps = [
-    ":agent_mojom",
+  deps = [
+    "//chrome/browser/profiles",
+    "//components/keyed_service/content",
+    "//net",
   ]
-  
-  defines = [ "ATLAS_LLM_AGENT_IMPLEMENTATION" ]
 }
 
 # =============================================================================
 # Mojo Interfaces
 # =============================================================================
 
-mojom("agent_mojom") {
+mojom("agent_mojo") {
   sources = [
     "public/mojom/agent.mojom",
   ]
@@ -64,17 +60,24 @@ mojom("agent_mojom") {
     "//ui/gfx/geometry/mojom",
     "//url/mojom:url_mojom_gurl",
   ]
+}
+
+# =============================================================================
+# Extension API
+# =============================================================================
+
+source_set("agent_api") {
+  sources = [
+    "../../extensions/api/agent/agent_api.cc",
+    "../../extensions/api/agent/agent_api.h",
+  ]
   
-  cpp_typemaps = [
-    {
-      types = [
-        {
-          mojom = "atlas.agent.mojom.ElementInfo"
-          cpp = "::atlas::agent::mojom::ElementInfoPtr"
-          move_only = true
-        },
-      ]
-    },
+  deps = [
+    ":llm_agent",
+    "//base",
+    "//chrome/browser/profiles",
+    "//content/public/browser",
+    "//extensions/browser",
   ]
 }
 
@@ -82,7 +85,7 @@ mojom("agent_mojom") {
 # Unit Tests
 # =============================================================================
 
-source_set("unit_tests") {
+source_set("llm_agent_unittests") {
   testonly = true
   
   sources = [

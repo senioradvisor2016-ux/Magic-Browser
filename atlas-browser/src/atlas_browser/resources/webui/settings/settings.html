@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atlas Settings</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <div class="settings-container">
+    <!-- Header -->
+    <header class="settings-header">
+      <div class="header-content">
+        <h1>⚙️ Atlas Settings</h1>
+        <p class="version">Version 1.0.0</p>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="settings-nav">
+      <a href="#agent" class="nav-item active" data-section="agent">
+        🤖 AI Agent
+      </a>
+      <a href="#privacy" class="nav-item" data-section="privacy">
+        🔒 Privacy
+      </a>
+      <a href="#updates" class="nav-item" data-section="updates">
+        🔄 Updates
+      </a>
+      <a href="#about" class="nav-item" data-section="about">
+        ℹ️ About
+      </a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="settings-content">
+      
+      <!-- Agent Settings -->
+      <section id="agent" class="settings-section active">
+        <h2>AI Agent Settings</h2>
+        
+        <div class="setting-group">
+          <div class="setting-row">
+            <div class="setting-info">
+              <label for="agent-enabled">Enable AI Agent</label>
+              <p class="setting-description">Allow the AI agent to interact with web pages</p>
+            </div>
+            <div class="setting-control">
+              <input type="checkbox" id="agent-enabled" checked>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <h3>LLM Provider</h3>
+          
+          <div class="setting-row">
+            <div class="setting-info">
+              <label for="agent-provider">Provider</label>
+              <p class="setting-description">Choose your LLM provider</p>
+            </div>
+            <div class="setting-control">
+              <select id="agent-provider">
+                <option value="anthropic">Anthropic (Claude)</option>
+                <option value="openai">OpenAI (GPT-4)</option>
+                <option value="local">Local (Ollama)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <label for="agent-model">Model</label>
+              <p class="setting-description">Select the model to use</p>
+            </div>
+            <div class="setting-control">
+              <select id="agent-model">
+                <option value="claude-sonnet-4-20250514">Claude Sonnet 4</option>
+                <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet</option>
+                <option value="gpt-4o">GPT-4o</option>
+                <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                <option value="llama3">Llama 3 (Local)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <label for="agent-api-key">API Key</label>
+              <p class="setting-description">Your API key (stored locally)</p>
+            </div>
+            <div class="setting-control">
+              <input type="password" id="agent-api-key" placeholder="sk-...">
+              <button class="btn-secondary btn-small" id="toggle-api-key">Show</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <h3>Agent Behavior</h3>
+          
+          <div class="setting-row">
+            <div class="setting-info">
+              <label for="agent-max-steps">Maximum Steps</label>
+              <p class="setting-description">Maximum actions per task (1-100)</p>
+            </div>
+            <div class="setting-control">
+              <input type="number" id="agent-max-steps" min="1" max="100" value="50">
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <label for="agent-vision">Enable Vision</label>
+              <p class="setting-description">Use screenshots for visual understanding</p>
+            </div>
+            <div class="setting-control">
+              <input type="checkbox" id="agent-vision" checked>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <label for="agent-labels">Show Element Labels</label>
+              <p class="setting-description">Display labels on interactive elements</p>
+            </div>
+            <div class="setting-control">
+              <input type="checkbox" id="agent-labels" checked>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Privacy Settings -->
+      <section id="privacy" class="settings-section">
+        <h2>Privacy Settings</h2>
+        
+        <div class="setting-group">
+          <div class="setting-row">
+            <div class="setting-info">
+              <label for="privacy-tracker-blocking">Block Trackers</label>
+              <p class="setting-description">Block known tracking scripts and pixels</p>
+            </div>
+            <div class="setting-control">
+              <input type="checkbox" id="privacy-tracker-blocking" checked>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <label for="privacy-fingerprint">Fingerprint Protection</label>
+              <p class="setting-description">Protect against browser fingerprinting</p>
+            </div>
+            <div class="setting-control">
+              <input type="checkbox" id="privacy-fingerprint" checked>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <h3>Statistics</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-value" id="trackers-blocked">0</span>
+              <span class="stat-label">Trackers Blocked</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value" id="fingerprints-blocked">0</span>
+              <span class="stat-label">Fingerprint Attempts</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <h3>Blocked Domains</h3>
+          <textarea id="blocked-domains" rows="5" placeholder="Enter domains to block, one per line..."></textarea>
+        </div>
+      </section>
+
+      <!-- Update Settings -->
+      <section id="updates" class="settings-section">
+        <h2>Update Settings</h2>
+        
+        <div class="setting-group">
+          <div class="setting-row">
+            <div class="setting-info">
+              <label for="auto-updates">Automatic Updates</label>
+              <p class="setting-description">Check for updates automatically</p>
+            </div>
+            <div class="setting-control">
+              <input type="checkbox" id="auto-updates" checked>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <label for="update-channel">Update Channel</label>
+              <p class="setting-description">Choose your update channel</p>
+            </div>
+            <div class="setting-control">
+              <select id="update-channel">
+                <option value="stable">Stable</option>
+                <option value="beta">Beta</option>
+                <option value="dev">Developer</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <div class="update-status">
+            <div id="update-status-text">You're up to date!</div>
+            <button class="btn-primary" id="check-updates">Check for Updates</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="settings-section">
+        <h2>About Atlas Browser</h2>
+        
+        <div class="about-content">
+          <div class="about-logo">🌐</div>
+          <h3>Atlas Browser</h3>
+          <p class="about-version">Version 1.0.0</p>
+          <p class="about-description">
+            AI-powered browser with built-in agent capabilities.
+            Built on Chromium.
+          </p>
+          
+          <div class="about-links">
+            <a href="https://atlasbrowser.com" target="_blank">Website</a>
+            <a href="https://github.com/atlas-browser/atlas-browser" target="_blank">GitHub</a>
+            <a href="https://atlasbrowser.com/docs" target="_blank">Documentation</a>
+            <a href="https://atlasbrowser.com/support" target="_blank">Support</a>
+          </div>
+          
+          <div class="about-credits">
+            <h4>Credits</h4>
+            <p>Built with ❤️ using:</p>
+            <ul>
+              <li>Chromium</li>
+              <li>Claude by Anthropic</li>
+            </ul>
+          </div>
+          
+          <div class="about-license">
+            <p>Licensed under BSD-3-Clause</p>
+            <p>© 2025 Atlas Browser Authors</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>

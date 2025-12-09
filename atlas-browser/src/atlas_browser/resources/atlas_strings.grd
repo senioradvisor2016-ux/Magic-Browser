@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Atlas Browser String Resources
+  
+  This file contains all user-visible strings for Atlas Browser.
+  Strings are organized by feature/component.
+-->
+<grit latest_public_release="0" current_release="1"
+      output_all_resource_defines="false" source_lang_id="en">
+  <outputs>
+    <output filename="grit/atlas_strings.h" type="rc_header">
+      <emit emit_type='prepend'></emit>
+    </output>
+    <output filename="atlas_strings_en-US.pak" type="data_package" lang="en" />
+    <output filename="atlas_strings_de.pak" type="data_package" lang="de" />
+    <output filename="atlas_strings_es.pak" type="data_package" lang="es" />
+    <output filename="atlas_strings_fr.pak" type="data_package" lang="fr" />
+    <output filename="atlas_strings_ja.pak" type="data_package" lang="ja" />
+    <output filename="atlas_strings_sv.pak" type="data_package" lang="sv" />
+  </outputs>
+  <release seq="1">
+    <messages fallback_to_english="true">
+    
+      <!-- ================================================================== -->
+      <!-- General / Branding -->
+      <!-- ================================================================== -->
+      
+      <message name="IDS_ATLAS_PRODUCT_NAME" desc="Product name">
+        Atlas Browser
+      </message>
+      <message name="IDS_ATLAS_SHORT_NAME" desc="Short product name">
+        Atlas
+      </message>
+      <message name="IDS_ATLAS_PRODUCT_DESCRIPTION" desc="Product description">
+        AI-powered browser with built-in agent capabilities
+      </message>
+      
+      <!-- ================================================================== -->
+      <!-- Agent UI -->
+      <!-- ================================================================== -->
+      
+      <message name="IDS_ATLAS_AGENT_TITLE" desc="Agent panel title">
+        🤖 AI Agent
+      </message>
+      <message name="IDS_ATLAS_AGENT_TASK_PROMPT" desc="Task input prompt">
+        What should I do?
+      </message>
+      <message name="IDS_ATLAS_AGENT_TASK_PLACEHOLDER" desc="Task input placeholder">
+        e.g., Find the best price for iPhone 16...
+      </message>
+      <message name="IDS_ATLAS_AGENT_START" desc="Start button">
+        ▶️ Start
+      </message>
+      <message name="IDS_ATLAS_AGENT_PAUSE" desc="Pause button">
+        ⏸️ Pause
+      </message>
+      <message name="IDS_ATLAS_AGENT_RESUME" desc="Resume button">
+        ▶️ Resume
+      </message>
+      <message name="IDS_ATLAS_AGENT_STOP" desc="Stop button">
+        ⏹️ Stop
+      </message>
+      <message name="IDS_ATLAS_AGENT_SETTINGS" desc="Settings button">
+        ⚙️ Settings
+      </message>
+      
+      <!-- Agent Status Messages -->
+      <message name="IDS_ATLAS_AGENT_STATUS_READY" desc="Ready status">
+        Ready to start
+      </message>
+      <message name="IDS_ATLAS_AGENT_STATUS_STARTING" desc="Starting status">
+        🔄 Starting...
+      </message>
+      <message name="IDS_ATLAS_AGENT_STATUS_RUNNING" desc="Running status">
+        🔄 Running...
+      </message>
+      <message name="IDS_ATLAS_AGENT_STATUS_THINKING" desc="Thinking status">
+        🤔 Thinking...
+      </message>
+      <message name="IDS_ATLAS_AGENT_STATUS_ACTING" desc="Acting status">
+        🎯 Acting...
+      </message>
+      <message name="IDS_ATLAS_AGENT_STATUS_PAUSED" desc="Paused status">
+        ⏸️ Paused
+      </message>
+      <message name="IDS_ATLAS_AGENT_STATUS_STOPPED" desc="Stopped status">
+        ⏹️ Stopped
+      </message>
+      <message name="IDS_ATLAS_AGENT_STATUS_COMPLETE" desc="Complete status">
+        ✅ Complete!
+      </message>
+      <message name="IDS_ATLAS_AGENT_STATUS_FAILED" desc="Failed status">
+        ❌ Failed
+      </message>
+      
+      <!-- Agent Action Log -->
+      <message name="IDS_ATLAS_AGENT_LOG_TITLE" desc="Action log title">
+        Action Log
+      </message>
+      <message name="IDS_ATLAS_AGENT_STEP" desc="Step label">
+        Step <ph name="NUMBER">$1<ex>1</ex></ph>
+      </message>
+      <message name="IDS_ATLAS_AGENT_ACTION_CLICK" desc="Click action">
+        Click
+      </message>
+      <message name="IDS_ATLAS_AGENT_ACTION_TYPE" desc="Type action">
+        Type
+      </message>
+      <message name="IDS_ATLAS_AGENT_ACTION_SCROLL" desc="Scroll action">
+        Scroll
+      </message>
+      <message name="IDS_ATLAS_AGENT_ACTION_NAVIGATE" desc="Navigate action">
+        Navigate
+      </message>
+      <message name="IDS_ATLAS_AGENT_ACTION_WAIT" desc="Wait action">
+        Wait
+      </message>
+      <message name="IDS_ATLAS_AGENT_ACTION_DONE" desc="Done action">
+        Done
+      </message>
+      
+      <!-- ================================================================== -->
+      <!-- Privacy UI -->
+      <!-- ================================================================== -->
+      
+      <message name="IDS_ATLAS_PRIVACY_TITLE" desc="Privacy panel title">
+        🔒 Privacy Shield
+      </message>
+      <message name="IDS_ATLAS_PRIVACY_ENABLED" desc="Privacy enabled">
+        Privacy protection is enabled
+      </message>
+      <message name="IDS_ATLAS_PRIVACY_DISABLED" desc="Privacy disabled">
+        Privacy protection is disabled
+      </message>
+      <message name="IDS_ATLAS_PRIVACY_TRACKERS_BLOCKED" desc="Trackers blocked count">
+        <ph name="COUNT">$1<ex>42</ex></ph> trackers blocked
+      </message>
+      <message name="IDS_ATLAS_PRIVACY_TRACKER_BLOCKING" desc="Tracker blocking setting">
+        Block trackers
+      </message>
+      <message name="IDS_ATLAS_PRIVACY_FINGERPRINT_PROTECTION" desc="Fingerprint protection setting">
+        Fingerprint protection
+      </message>
+      
+      <!-- ================================================================== -->
+      <!-- Settings -->
+      <!-- ================================================================== -->
+      
+      <message name="IDS_ATLAS_SETTINGS_TITLE" desc="Settings page title">
+        Atlas Settings
+      </message>
+      
+      <!-- Agent Settings -->
+      <message name="IDS_ATLAS_SETTINGS_AGENT" desc="Agent settings section">
+        AI Agent
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_AGENT_ENABLED" desc="Agent enabled setting">
+        Enable AI Agent
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_AGENT_PROVIDER" desc="Provider setting">
+        LLM Provider
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_AGENT_PROVIDER_ANTHROPIC" desc="Anthropic provider">
+        Anthropic (Claude)
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_AGENT_PROVIDER_OPENAI" desc="OpenAI provider">
+        OpenAI (GPT-4)
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_AGENT_PROVIDER_LOCAL" desc="Local provider">
+        Local (Ollama)
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_AGENT_MODEL" desc="Model setting">
+        Model
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_AGENT_API_KEY" desc="API key setting">
+        API Key
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_AGENT_API_KEY_PLACEHOLDER" desc="API key placeholder">
+        Enter your API key...
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_AGENT_MAX_STEPS" desc="Max steps setting">
+        Maximum steps per task
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_AGENT_ENABLE_VISION" desc="Vision setting">
+        Enable visual understanding (screenshots)
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_AGENT_ELEMENT_LABELS" desc="Element labels setting">
+        Show element labels
+      </message>
+      
+      <!-- Privacy Settings -->
+      <message name="IDS_ATLAS_SETTINGS_PRIVACY" desc="Privacy settings section">
+        Privacy
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_PRIVACY_TRACKER_BLOCKING" desc="Tracker blocking setting">
+        Block tracking scripts
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_PRIVACY_FINGERPRINT" desc="Fingerprint setting">
+        Fingerprint protection
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_PRIVACY_BLOCKED_DOMAINS" desc="Blocked domains">
+        Blocked domains
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_PRIVACY_ALLOWED_DOMAINS" desc="Allowed domains">
+        Allowed domains
+      </message>
+      
+      <!-- Update Settings -->
+      <message name="IDS_ATLAS_SETTINGS_UPDATE" desc="Update settings section">
+        Updates
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_UPDATE_AUTO" desc="Auto update setting">
+        Check for updates automatically
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_UPDATE_CHANNEL" desc="Update channel">
+        Update channel
+      </message>
+      <message name="IDS_ATLAS_SETTINGS_UPDATE_CHECK_NOW" desc="Check now button">
+        Check for updates now
+      </message>
+      
+      <!-- ================================================================== -->
+      <!-- Tooltips -->
+      <!-- ================================================================== -->
+      
+      <message name="IDS_ATLAS_TOOLTIP_AGENT_BUTTON" desc="Agent button tooltip">
+        AI Agent (Ctrl+Shift+A)
+      </message>
+      <message name="IDS_ATLAS_TOOLTIP_PRIVACY_BUTTON" desc="Privacy button tooltip">
+        Privacy Shield
+      </message>
+      
+      <!-- ================================================================== -->
+      <!-- Errors -->
+      <!-- ================================================================== -->
+      
+      <message name="IDS_ATLAS_ERROR_NO_TAB" desc="No active tab error">
+        No active tab
+      </message>
+      <message name="IDS_ATLAS_ERROR_AGENT_NOT_AVAILABLE" desc="Agent not available error">
+        AI Agent is not available
+      </message>
+      <message name="IDS_ATLAS_ERROR_TASK_FAILED" desc="Task failed error">
+        Task failed: <ph name="ERROR">$1<ex>Unknown error</ex></ph>
+      </message>
+      <message name="IDS_ATLAS_ERROR_LLM_UNAVAILABLE" desc="LLM unavailable error">
+        LLM service is not available. Please check your API key.
+      </message>
+      <message name="IDS_ATLAS_ERROR_UPDATE_CHECK_FAILED" desc="Update check failed">
+        Failed to check for updates
+      </message>
+      
+      <!-- ================================================================== -->
+      <!-- Updates -->
+      <!-- ================================================================== -->
+      
+      <message name="IDS_ATLAS_UPDATE_AVAILABLE" desc="Update available">
+        Update available: <ph name="VERSION">$1<ex>1.1.0</ex></ph>
+      </message>
+      <message name="IDS_ATLAS_UPDATE_DOWNLOADING" desc="Downloading update">
+        Downloading update...
+      </message>
+      <message name="IDS_ATLAS_UPDATE_READY" desc="Update ready">
+        Update ready to install
+      </message>
+      <message name="IDS_ATLAS_UPDATE_RESTART" desc="Restart to update">
+        Restart to complete update
+      </message>
+      
+    </messages>
+  </release>
+</grit>
