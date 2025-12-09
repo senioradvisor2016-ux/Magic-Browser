@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="agentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90D9"/>
+      <stop offset="100%" style="stop-color:#7C4DFF"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Robot head -->
+  <rect x="4" y="6" width="16" height="14" rx="3" fill="url(#agentGrad)"/>
+  
+  <!-- Eyes -->
+  <circle cx="9" cy="12" r="2" fill="white"/>
+  <circle cx="15" cy="12" r="2" fill="white"/>
+  <circle cx="9" cy="12" r="1" fill="#333"/>
+  <circle cx="15" cy="12" r="1" fill="#333"/>
+  
+  <!-- Mouth -->
+  <rect x="8" y="16" width="8" height="2" rx="1" fill="white"/>
+  
+  <!-- Antenna -->
+  <line x1="12" y1="6" x2="12" y2="2" stroke="url(#agentGrad)" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="12" cy="2" r="1.5" fill="url(#agentGrad)"/>
+  
+  <!-- Ears/sensors -->
+  <rect x="1" y="10" width="3" height="4" rx="1" fill="url(#agentGrad)"/>
+  <rect x="20" y="10" width="3" height="4" rx="1" fill="url(#agentGrad)"/>
+</svg>

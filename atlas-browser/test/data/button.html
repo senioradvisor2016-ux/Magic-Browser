@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button Test Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      text-align: center;
+    }
+    .button-container {
+      margin: 20px 0;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.2s;
+    }
+    #test-button {
+      background: #4A90D9;
+      color: white;
+    }
+    #test-button:hover {
+      background: #3A7BC8;
+    }
+    #test-button.clicked {
+      background: #4CAF50;
+    }
+    #secondary-button {
+      background: #f5f5f5;
+      color: #333;
+      border: 1px solid #ccc;
+    }
+    #danger-button {
+      background: #F44336;
+      color: white;
+    }
+    #disabled-button {
+      background: #ccc;
+      color: #666;
+      cursor: not-allowed;
+    }
+    .counter {
+      font-size: 48px;
+      margin: 20px 0;
+      color: #333;
+    }
+    .message {
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 400px;
+      border-radius: 8px;
+      display: none;
+    }
+    .message.success {
+      background: #e8f5e9;
+      color: #2e7d32;
+      display: block;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Button Test Page</h1>
+  
+  <div class="counter" id="counter">0</div>
+  
+  <div class="button-container">
+    <button id="test-button" data-testid="main-button">
+      Click Me
+    </button>
+  </div>
+  
+  <div class="button-container">
+    <button id="secondary-button">Secondary Action</button>
+    <button id="danger-button">Danger Action</button>
+    <button id="disabled-button" disabled>Disabled</button>
+  </div>
+  
+  <div class="button-container">
+    <button id="toggle-button">Show Hidden Element</button>
+    <div id="hidden-element" class="hidden">
+      <p>This element was hidden!</p>
+      <button id="nested-button">Nested Button</button>
+    </div>
+  </div>
+  
+  <div class="message" id="message"></div>
+  
+  <script>
+    let count = 0;
+    
+    // Main test button
+    document.getElementById('test-button').addEventListener('click', function() {
+      count++;
+      document.getElementById('counter').textContent = count;
+      this.classList.add('clicked');
+      this.textContent = 'Clicked!';
+      
+      setTimeout(() => {
+        this.classList.remove('clicked');
+        this.textContent = 'Click Me';
+      }, 1000);
+    });
+    
+    // Secondary button
+    document.getElementById('secondary-button').addEventListener('click', function() {
+      showMessage('Secondary action triggered!');
+    });
+    
+    // Danger button
+    document.getElementById('danger-button').addEventListener('click', function() {
+      if (confirm('Are you sure?')) {
+        showMessage('Danger action confirmed!');
+      }
+    });
+    
+    // Toggle button
+    document.getElementById('toggle-button').addEventListener('click', function() {
+      const hidden = document.getElementById('hidden-element');
+      hidden.classList.toggle('hidden');
+      this.textContent = hidden.classList.contains('hidden') 
+        ? 'Show Hidden Element' 
+        : 'Hide Element';
+    });
+    
+    // Nested button
+    document.getElementById('nested-button').addEventListener('click', function() {
+      showMessage('Nested button clicked!');
+    });
+    
+    function showMessage(text) {
+      const msg = document.getElementById('message');
+      msg.textContent = text;
+      msg.className = 'message success';
+      setTimeout(() => {
+        msg.className = 'message';
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

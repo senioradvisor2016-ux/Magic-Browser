@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Test Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    button {
+      background: #4A90D9;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #3A7BC8;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e8f5e9;
+      border-radius: 4px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Registration Form</h1>
+  <p>Please fill out the form below to register.</p>
+  
+  <form id="registration-form">
+    <div class="form-group">
+      <label for="name-input">Full Name</label>
+      <input type="text" id="name-input" name="name" placeholder="Enter your name" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="email-input">Email Address</label>
+      <input type="email" id="email-input" name="email" placeholder="Enter your email" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="password-input">Password</label>
+      <input type="password" id="password-input" name="password" placeholder="Enter password" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="country-select">Country</label>
+      <select id="country-select" name="country">
+        <option value="">Select a country</option>
+        <option value="us">United States</option>
+        <option value="uk">United Kingdom</option>
+        <option value="ca">Canada</option>
+        <option value="au">Australia</option>
+        <option value="se">Sweden</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="bio-textarea">Bio</label>
+      <textarea id="bio-textarea" name="bio" rows="4" placeholder="Tell us about yourself"></textarea>
+    </div>
+    
+    <div class="form-group">
+      <label>
+        <input type="checkbox" id="terms-checkbox" name="terms" required>
+        I agree to the terms and conditions
+      </label>
+    </div>
+    
+    <div class="form-group">
+      <label>Notification Preferences:</label>
+      <label>
+        <input type="radio" name="notifications" value="all" checked> All notifications
+      </label>
+      <label>
+        <input type="radio" name="notifications" value="important"> Important only
+      </label>
+      <label>
+        <input type="radio" name="notifications" value="none"> No notifications
+      </label>
+    </div>
+    
+    <button type="submit" id="submit-btn">Register</button>
+  </form>
+  
+  <div class="result" id="result">
+    <h3>Registration Successful!</h3>
+    <p>Thank you for registering.</p>
+  </div>
+  
+  <script>
+    document.getElementById('registration-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('result').style.display = 'block';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Bundle identification -->
+    <key>CFBundleIdentifier</key>
+    <string>${ATLAS_BUNDLE_ID}</string>
+    
+    <key>CFBundleName</key>
+    <string>Atlas Browser</string>
+    
+    <key>CFBundleDisplayName</key>
+    <string>Atlas Browser</string>
+    
+    <key>CFBundleExecutable</key>
+    <string>atlas</string>
+    
+    <!-- Version information -->
+    <key>CFBundleVersion</key>
+    <string>${ATLAS_VERSION}</string>
+    
+    <key>CFBundleShortVersionString</key>
+    <string>${ATLAS_VERSION}</string>
+    
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    
+    <!-- Bundle type -->
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    
+    <key>CFBundleSignature</key>
+    <string>????</string>
+    
+    <!-- Icon -->
+    <key>CFBundleIconFile</key>
+    <string>atlas.icns</string>
+    
+    <!-- macOS requirements -->
+    <key>LSMinimumSystemVersion</key>
+    <string>12.0</string>
+    
+    <key>NSPrincipalClass</key>
+    <string>AtlasApplication</string>
+    
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    
+    <key>NSSupportsAutomaticGraphicsSwitching</key>
+    <true/>
+    
+    <!-- Document types - HTML files -->
+    <key>CFBundleDocumentTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>HTML Document</string>
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>public.html</string>
+            </array>
+            <key>LSHandlerRank</key>
+            <string>Alternate</string>
+        </dict>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>XHTML Document</string>
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>public.xhtml</string>
+            </array>
+            <key>LSHandlerRank</key>
+            <string>Alternate</string>
+        </dict>
+    </array>
+    
+    <!-- URL schemes -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLName</key>
+            <string>Web URL</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>http</string>
+                <string>https</string>
+            </array>
+            <key>LSHandlerRank</key>
+            <string>Alternate</string>
+        </dict>
+        <dict>
+            <key>CFBundleURLName</key>
+            <string>Atlas URL</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>atlas</string>
+            </array>
+            <key>LSHandlerRank</key>
+            <string>Owner</string>
+        </dict>
+    </array>
+    
+    <!-- App Transport Security -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
+    
+    <!-- Privacy permissions -->
+    <key>NSCameraUsageDescription</key>
+    <string>Atlas Browser needs camera access for video calls and QR scanning.</string>
+    
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Atlas Browser needs microphone access for video calls and voice input.</string>
+    
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Atlas Browser needs location access for location-based services.</string>
+    
+    <key>NSAppleEventsUsageDescription</key>
+    <string>Atlas Browser needs to control other apps for automation features.</string>
+    
+    <!-- Hardened runtime entitlements -->
+    <key>com.apple.security.app-sandbox</key>
+    <false/>
+    
+    <key>com.apple.security.network.client</key>
+    <true/>
+    
+    <key>com.apple.security.network.server</key>
+    <true/>
+    
+    <key>com.apple.security.files.user-selected.read-write</key>
+    <true/>
+    
+    <key>com.apple.security.files.downloads.read-write</key>
+    <true/>
+    
+    <!-- Copyright -->
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright © 2025 Atlas Browser Authors. All rights reserved.</string>
+</dict>
+</plist>

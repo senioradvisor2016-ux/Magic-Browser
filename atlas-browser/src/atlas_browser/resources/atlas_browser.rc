@@ -1,0 +1,68 @@
+// Copyright 2025 Atlas Browser Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license.
+
+// Windows Resource File for Atlas Browser
+
+#include <winresrc.h>
+#include "atlas_browser/resources/version.h"
+
+// =============================================================================
+// Version Information
+// =============================================================================
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION ATLAS_VERSION_MAJOR,ATLAS_VERSION_MINOR,ATLAS_VERSION_BUILD,ATLAS_VERSION_PATCH
+ PRODUCTVERSION ATLAS_VERSION_MAJOR,ATLAS_VERSION_MINOR,ATLAS_VERSION_BUILD,ATLAS_VERSION_PATCH
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "Atlas Browser Authors"
+            VALUE "FileDescription", "Atlas Browser - AI-Powered Web Browser"
+            VALUE "FileVersion", ATLAS_VERSION_STRING
+            VALUE "InternalName", "atlas"
+            VALUE "LegalCopyright", "Copyright 2025 Atlas Browser Authors"
+            VALUE "OriginalFilename", "atlas.exe"
+            VALUE "ProductName", "Atlas Browser"
+            VALUE "ProductVersion", ATLAS_VERSION_STRING
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+// =============================================================================
+// Application Icon
+// =============================================================================
+
+// The main application icon
+IDI_ATLAS_ICON ICON "icons/atlas.ico"
+
+// =============================================================================
+// Application Manifest
+// =============================================================================
+
+// Embed the manifest for modern Windows features
+1 RT_MANIFEST "atlas.manifest"
+
+// =============================================================================
+// String Table
+// =============================================================================
+
+STRINGTABLE
+BEGIN
+    IDS_APP_NAME "Atlas Browser"
+    IDS_APP_DESCRIPTION "AI-powered browser with built-in agent capabilities"
+END
