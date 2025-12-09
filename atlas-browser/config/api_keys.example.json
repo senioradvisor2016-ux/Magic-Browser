@@ -1,0 +1,19 @@
+{
+  "_comment": "Copy this file to api_keys.json and add your API keys",
+  "_warning": "NEVER commit api_keys.json to version control!",
+  
+  "anthropic": {
+    "api_key": "YOUR_ANTHROPIC_API_KEY_HERE",
+    "model": "claude-sonnet-4-20250514"
+  },
+  
+  "openai": {
+    "api_key": "YOUR_OPENAI_API_KEY_HERE",
+    "model": "gpt-4o"
+  },
+  
+  "local": {
+    "endpoint": "http://localhost:11434",
+    "model": "llama3"
+  }
+}

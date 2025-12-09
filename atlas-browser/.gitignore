@@ -67,11 +67,13 @@ temp/
 *.tar.gz
 *.tar.xz
 
-# API keys and secrets
+# API keys and secrets - NEVER COMMIT THESE
 *.key
 *.pem
 secrets.json
+api_keys.json
 api_keys.h
+config/api_keys.json
 
 # Local configuration
 local.gn
