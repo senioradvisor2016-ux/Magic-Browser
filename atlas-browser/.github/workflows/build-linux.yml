@@ -1,0 +1,130 @@
+# Atlas Browser - Linux Build Workflow
+name: Build Linux
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build type'
+        required: true
+        default: 'Debug'
+        type: choice
+        options:
+          - Debug
+          - Release
+
+env:
+  CHROMIUM_VERSION: "128.0.6613.84"  # Pin to specific Chromium version
+
+jobs:
+  build:
+    name: Build Linux (${{ inputs.build_type || 'Debug' }})
+    runs-on: ubuntu-22.04
+    timeout-minutes: 360  # 6 hours
+
+    steps:
+      - name: Checkout Atlas Browser
+        uses: actions/checkout@v4
+        with:
+          path: atlas-browser
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/share/boost
+          df -h
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            git python3 python3-pip \
+            build-essential clang lld \
+            libnss3-dev libgtk-3-dev \
+            libglib2.0-dev libpango1.0-dev \
+            libatk1.0-dev libcairo2-dev \
+            libfreetype6-dev libfontconfig1-dev \
+            libdbus-1-dev libxi-dev \
+            libxrandr-dev libxss-dev \
+            libpulse-dev libudev-dev \
+            libdrm-dev mesa-common-dev \
+            ninja-build
+
+      - name: Setup depot_tools
+        run: |
+          git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git ~/depot_tools
+          echo "$HOME/depot_tools" >> $GITHUB_PATH
+
+      - name: Cache Chromium source
+        uses: actions/cache@v4
+        id: chromium-cache
+        with:
+          path: ~/chromium
+          key: chromium-linux-${{ env.CHROMIUM_VERSION }}
+          restore-keys: |
+            chromium-linux-
+
+      - name: Fetch Chromium (if not cached)
+        if: steps.chromium-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/chromium && cd ~/chromium
+          fetch --nohooks --no-history chromium
+          cd src
+          git checkout tags/${{ env.CHROMIUM_VERSION }}
+          gclient sync --nohooks
+
+      - name: Run hooks
+        run: |
+          cd ~/chromium/src
+          gclient runhooks
+
+      - name: Link Atlas Browser
+        run: |
+          ln -sf $GITHUB_WORKSPACE/atlas-browser ~/chromium/src/atlas-browser
+
+      - name: Generate build files
+        run: |
+          cd ~/chromium/src
+          BUILD_TYPE="${{ inputs.build_type || 'Debug' }}"
+          
+          mkdir -p out/Atlas${BUILD_TYPE}
+          
+          if [ "$BUILD_TYPE" == "Release" ]; then
+            cat > out/Atlas${BUILD_TYPE}/args.gn << EOF
+          import("//atlas-browser/args.gn")
+          is_debug = false
+          is_component_build = false
+          is_official_build = true
+          symbol_level = 0
+          EOF
+          else
+            cat > out/Atlas${BUILD_TYPE}/args.gn << EOF
+          import("//atlas-browser/args.gn")
+          is_debug = true
+          is_component_build = true
+          symbol_level = 1
+          EOF
+          fi
+          
+          gn gen out/Atlas${BUILD_TYPE}
+
+      - name: Build
+        run: |
+          cd ~/chromium/src
+          BUILD_TYPE="${{ inputs.build_type || 'Debug' }}"
+          autoninja -C out/Atlas${BUILD_TYPE} atlas_browser
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: atlas-browser-linux-${{ inputs.build_type || 'Debug' }}
+          path: |
+            ~/chromium/src/out/Atlas*/atlas
+            ~/chromium/src/out/Atlas*/*.pak
+            ~/chromium/src/out/Atlas*/locales/
+          retention-days: 7

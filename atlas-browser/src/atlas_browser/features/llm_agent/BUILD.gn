@@ -1,0 +1,101 @@
+# Copyright 2025 Atlas Browser Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license.
+
+import("//mojo/public/tools/bindings/mojom.gni")
+
+# =============================================================================
+# LLM Agent Feature
+# =============================================================================
+
+component("llm_agent") {
+  output_name = "atlas_llm_agent"
+  
+  sources = [
+    # Browser-side
+    "browser/agent_service.cc",
+    "browser/agent_service.h",
+    "browser/llm_client.cc",
+    "browser/llm_client.h",
+    "browser/screenshot_capturer.cc",
+    "browser/screenshot_capturer.h",
+    
+    # Renderer-side
+    "renderer/agent_injector.cc",
+    "renderer/agent_injector.h",
+    "renderer/dom_extractor.cc",
+    "renderer/dom_extractor.h",
+  ]
+  
+  deps = [
+    ":agent_mojom",
+    "//base",
+    "//components/keyed_service/content",
+    "//components/keyed_service/core",
+    "//content/public/browser",
+    "//content/public/renderer",
+    "//mojo/public/cpp/bindings",
+    "//net",
+    "//services/network/public/cpp",
+    "//services/network/public/mojom",
+    "//third_party/blink/public:blink",
+    "//ui/gfx",
+    "//ui/gfx/codec",
+    "//url",
+  ]
+  
+  public_deps = [
+    ":agent_mojom",
+  ]
+  
+  defines = [ "ATLAS_LLM_AGENT_IMPLEMENTATION" ]
+}
+
+# =============================================================================
+# Mojo Interfaces
+# =============================================================================
+
+mojom("agent_mojom") {
+  sources = [
+    "public/mojom/agent.mojom",
+  ]
+  
+  public_deps = [
+    "//mojo/public/mojom/base",
+    "//ui/gfx/geometry/mojom",
+    "//url/mojom:url_mojom_gurl",
+  ]
+  
+  cpp_typemaps = [
+    {
+      types = [
+        {
+          mojom = "atlas.agent.mojom.ElementInfo"
+          cpp = "::atlas::agent::mojom::ElementInfoPtr"
+          move_only = true
+        },
+      ]
+    },
+  ]
+}
+
+# =============================================================================
+# Unit Tests
+# =============================================================================
+
+source_set("unit_tests") {
+  testonly = true
+  
+  sources = [
+    "browser/agent_service_unittest.cc",
+    "browser/llm_client_unittest.cc",
+    "renderer/dom_extractor_unittest.cc",
+  ]
+  
+  deps = [
+    ":llm_agent",
+    "//base/test:test_support",
+    "//content/test:test_support",
+    "//testing/gmock",
+    "//testing/gtest",
+  ]
+}

@@ -1,0 +1,63 @@
+# =============================================================================
+# Atlas Browser - GN Build Arguments
+# =============================================================================
+# 
+# Usage:
+#   gn gen out/Release --args='import("//atlas-browser/args.gn")'
+#
+# Or copy these to your out/X/args.gn file
+# =============================================================================
+
+# === Build Type ===
+is_debug = false
+is_component_build = false
+is_official_build = true
+
+# === Symbols ===
+# Set to 1 or 2 for debugging, 0 for release
+symbol_level = 0
+blink_symbol_level = 0
+v8_symbol_level = 0
+
+# === Optimizations ===
+use_thin_lto = true
+is_cfi = true
+use_cfi_cast = true
+
+# === Chrome Features (disabled for cleaner build) ===
+enable_nacl = false
+enable_reading_list = false
+enable_side_search = false
+enable_extensions = true
+
+# === Media ===
+proprietary_codecs = true
+ffmpeg_branding = "Chrome"
+enable_hevc_parser_and_hw_decoder = true
+
+# === Google Services (disabled - we're independent) ===
+google_api_key = ""
+google_default_client_id = ""
+google_default_client_secret = ""
+safe_browsing_mode = 0
+enable_hangout_services_extension = false
+enable_service_discovery = false
+enable_mdns = false
+enable_remoting = false
+enable_reporting = false
+
+# === Telemetry (disabled) ===
+enable_reporting = false
+enable_background_tracing = false
+
+# === Atlas Browser Features ===
+enable_atlas_agent = true
+atlas_version = "1.0.0"
+atlas_enable_local_llm = true
+atlas_default_llm_provider = "anthropic"
+
+# === Development args (comment out for release) ===
+# is_debug = true
+# symbol_level = 1
+# is_component_build = true
+# dcheck_always_on = true

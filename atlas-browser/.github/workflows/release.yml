@@ -1,0 +1,160 @@
+# Atlas Browser - Release Workflow
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version (e.g., 1.0.0)'
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  CHROMIUM_VERSION: "128.0.6613.84"
+
+jobs:
+  build-linux:
+    name: Build Linux Release
+    runs-on: ubuntu-22.04
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: atlas-browser
+
+      - name: Setup environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential clang lld ninja-build
+          git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git ~/depot_tools
+          echo "$HOME/depot_tools" >> $GITHUB_PATH
+
+      - name: Restore Chromium cache
+        uses: actions/cache@v4
+        with:
+          path: ~/chromium
+          key: chromium-linux-${{ env.CHROMIUM_VERSION }}
+
+      - name: Build
+        run: |
+          ln -sf $GITHUB_WORKSPACE/atlas-browser ~/chromium/src/atlas-browser
+          cd ~/chromium/src
+          mkdir -p out/AtlasRelease
+          cat > out/AtlasRelease/args.gn << EOF
+          import("//atlas-browser/args.gn")
+          is_debug = false
+          is_official_build = true
+          EOF
+          gn gen out/AtlasRelease
+          autoninja -C out/AtlasRelease atlas_browser
+
+      - name: Package
+        run: |
+          cd $GITHUB_WORKSPACE/atlas-browser
+          VERSION="${{ github.event.inputs.version || github.ref_name }}"
+          VERSION="${VERSION#v}"
+          ./scripts/package.sh --version "$VERSION"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: atlas-browser-linux
+          path: atlas-browser/dist/*.tar.gz
+
+  build-macos:
+    name: Build macOS Release
+    runs-on: macos-14
+    timeout-minutes: 480
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: atlas-browser
+
+      - name: Setup
+        run: |
+          git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git ~/depot_tools
+          echo "$HOME/depot_tools" >> $GITHUB_PATH
+
+      - name: Restore Chromium cache
+        uses: actions/cache@v4
+        with:
+          path: ~/chromium
+          key: chromium-macos-arm64-${{ env.CHROMIUM_VERSION }}
+
+      - name: Build
+        run: |
+          ln -sf $GITHUB_WORKSPACE/atlas-browser ~/chromium/src/atlas-browser
+          cd ~/chromium/src
+          mkdir -p out/AtlasRelease
+          cat > out/AtlasRelease/args.gn << EOF
+          import("//atlas-browser/args.gn")
+          target_os = "mac"
+          target_cpu = "arm64"
+          is_debug = false
+          is_official_build = true
+          EOF
+          gn gen out/AtlasRelease
+          autoninja -C out/AtlasRelease atlas_browser
+
+      - name: Package
+        run: |
+          cd $GITHUB_WORKSPACE/atlas-browser
+          VERSION="${{ github.event.inputs.version || github.ref_name }}"
+          VERSION="${VERSION#v}"
+          ./scripts/package.sh --platform mac --version "$VERSION"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: atlas-browser-macos
+          path: atlas-browser/dist/*.dmg
+
+  release:
+    name: Create Release
+    needs: [build-linux, build-macos]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: atlas-browser-linux
+          path: dist/
+
+      - name: Download macOS artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: atlas-browser-macos
+          path: dist/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Atlas Browser ${{ github.event.inputs.version || github.ref_name }}
+          body: |
+            ## Atlas Browser ${{ github.event.inputs.version || github.ref_name }}
+            
+            ### Features
+            - AI-powered browser agent
+            - Privacy-focused with tracker blocking
+            - Built on Chromium
+            
+            ### Downloads
+            - **Linux**: `atlas-browser-*.tar.gz`
+            - **macOS**: `AtlasBrowser-*.dmg`
+            
+            ### Installation
+            See [README](https://github.com/atlas-browser/atlas-browser#installation) for instructions.
+          files: |
+            dist/*
+          draft: false
+          prerelease: ${{ contains(github.ref_name, 'beta') || contains(github.ref_name, 'alpha') }}

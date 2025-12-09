@@ -1,0 +1,155 @@
+# Copyright 2025 Atlas Browser Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license.
+
+import("//build/config/chrome_build.gni")
+import("//atlas-browser/branding/branding.gni")
+
+# =============================================================================
+# Atlas Browser - Main Build Configuration
+# =============================================================================
+
+group("atlas_browser") {
+  deps = [
+    ":atlas_browser_exe",
+    "//atlas-browser/src/atlas_browser/features:all_features",
+  ]
+  
+  if (is_win) {
+    deps += [ ":atlas_browser_win_resources" ]
+  }
+  
+  if (is_mac) {
+    deps += [ ":atlas_browser_app_bundle" ]
+  }
+}
+
+# =============================================================================
+# Main Executable
+# =============================================================================
+
+executable("atlas_browser_exe") {
+  output_name = "atlas"
+  
+  sources = [
+    "src/atlas_browser/browser/atlas_main.cc",
+    "src/atlas_browser/browser/atlas_main_delegate.cc",
+    "src/atlas_browser/browser/atlas_main_delegate.h",
+    "src/atlas_browser/browser/atlas_content_browser_client.cc",
+    "src/atlas_browser/browser/atlas_content_browser_client.h",
+    "src/atlas_browser/browser/atlas_browser_main_parts.cc",
+    "src/atlas_browser/browser/atlas_browser_main_parts.h",
+  ]
+  
+  deps = [
+    "//base",
+    "//chrome:chrome_initial",
+    "//chrome/browser",
+    "//chrome/common",
+    "//chrome/renderer",
+    "//content/public/app",
+    "//content/public/browser",
+    "//content/public/renderer",
+    "//ui/views",
+    
+    # Atlas features
+    "//atlas-browser/src/atlas_browser/features/llm_agent",
+    "//atlas-browser/src/atlas_browser/features/privacy",
+    
+    # Resources
+    "//atlas-browser/src/atlas_browser/resources:atlas_resources",
+  ]
+  
+  if (is_win) {
+    sources += [
+      "src/atlas_browser/browser/atlas_main_win.cc",
+    ]
+    deps += [
+      "//chrome/install_static:install_static_util",
+      "//sandbox/win:sandbox",
+    ]
+    ldflags = [
+      "/SUBSYSTEM:WINDOWS",
+    ]
+  }
+  
+  if (is_mac) {
+    sources += [
+      "src/atlas_browser/browser/atlas_main_mac.mm",
+    ]
+    deps += [
+      "//chrome/browser/mac",
+    ]
+    frameworks = [
+      "AppKit.framework",
+      "CoreFoundation.framework",
+    ]
+  }
+  
+  if (is_linux) {
+    deps += [
+      "//chrome/browser/ui/gtk",
+    ]
+  }
+}
+
+# =============================================================================
+# Platform-specific targets
+# =============================================================================
+
+if (is_win) {
+  windows_resource("atlas_browser_win_resources") {
+    sources = [
+      "src/atlas_browser/resources/atlas_browser.rc",
+    ]
+    deps = [
+      "//atlas-browser/branding:version_header",
+    ]
+  }
+}
+
+if (is_mac) {
+  mac_app_bundle("atlas_browser_app_bundle") {
+    output_name = "Atlas Browser"
+    
+    info_plist = "src/atlas_browser/resources/mac/Info.plist"
+    
+    extra_substitutions = [
+      "ATLAS_VERSION=$atlas_version_full",
+      "ATLAS_BUNDLE_ID=$atlas_app_id",
+    ]
+    
+    deps = [
+      ":atlas_browser_exe",
+    ]
+  }
+}
+
+# =============================================================================
+# Tests
+# =============================================================================
+
+test("atlas_browser_unittests") {
+  sources = [
+    "src/atlas_browser/features/llm_agent/browser/agent_service_unittest.cc",
+    "src/atlas_browser/features/llm_agent/browser/llm_client_unittest.cc",
+    "src/atlas_browser/features/llm_agent/renderer/dom_extractor_unittest.cc",
+  ]
+  
+  deps = [
+    ":atlas_browser_exe",
+    "//base/test:test_support",
+    "//content/test:test_support",
+    "//testing/gtest",
+  ]
+}
+
+test("atlas_browser_browsertests") {
+  sources = [
+    "src/atlas_browser/features/llm_agent/agent_browsertest.cc",
+  ]
+  
+  deps = [
+    ":atlas_browser_exe",
+    "//chrome/test:browser_tests_runner",
+  ]
+}

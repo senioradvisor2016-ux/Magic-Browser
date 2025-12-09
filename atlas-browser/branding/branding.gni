@@ -1,0 +1,54 @@
+# =============================================================================
+# Atlas Browser - Branding Configuration
+# =============================================================================
+
+declare_args() {
+  # === Product Identity ===
+  atlas_product_name = "Atlas Browser"
+  atlas_product_short_name = "Atlas"
+  atlas_product_description = "AI-powered browser with built-in agent capabilities"
+  
+  # === Company ===
+  atlas_company_name = "Atlas Software"
+  atlas_company_short_name = "Atlas"
+  atlas_company_url = "https://atlasbrowser.com"
+  
+  # === Version ===
+  atlas_version_major = 1
+  atlas_version_minor = 0
+  atlas_version_patch = 0
+  atlas_version_build = 0
+  atlas_version_full = "${atlas_version_major}.${atlas_version_minor}.${atlas_version_patch}.${atlas_version_build}"
+  
+  # === Identifiers ===
+  atlas_app_id = "com.atlas.browser"
+  atlas_app_guid = "A7B8C9D0-E1F2-3456-7890-ABCDEF123456"  # Windows installer GUID
+  
+  # === URLs ===
+  atlas_homepage_url = "https://atlasbrowser.com"
+  atlas_support_url = "https://atlasbrowser.com/support"
+  atlas_update_url = "https://updates.atlasbrowser.com/api/v1"
+  atlas_crash_report_url = "https://crashes.atlasbrowser.com/submit"
+  
+  # === Default Settings ===
+  atlas_default_search_engine = "https://duckduckgo.com/?q="
+  atlas_default_homepage = "https://atlasbrowser.com/start"
+  atlas_default_newtab = "atlas://newtab"
+  
+  # === Agent Defaults ===
+  atlas_default_agent_model = "claude-sonnet-4-20250514"
+  atlas_default_agent_provider = "anthropic"
+  atlas_agent_max_steps = 50
+  atlas_agent_timeout_seconds = 300
+  
+  # === Feature Flags ===
+  atlas_enable_agent = true
+  atlas_enable_privacy_mode = true
+  atlas_enable_tracker_blocking = true
+  atlas_enable_fingerprint_protection = true
+  atlas_enable_local_llm = true
+}
+
+# === Computed Values ===
+atlas_user_agent_brand = "${atlas_product_short_name}"
+atlas_user_agent_version = "${atlas_version_major}"

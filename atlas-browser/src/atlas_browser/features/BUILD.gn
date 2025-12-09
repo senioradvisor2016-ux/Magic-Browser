@@ -1,0 +1,21 @@
+# Copyright 2025 Atlas Browser Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license.
+
+# =============================================================================
+# All Atlas Features
+# =============================================================================
+
+group("all_features") {
+  deps = [
+    "//atlas-browser/src/atlas_browser/features/llm_agent",
+    "//atlas-browser/src/atlas_browser/features/privacy",
+  ]
+}
+
+group("unit_tests") {
+  testonly = true
+  deps = [
+    "//atlas-browser/src/atlas_browser/features/llm_agent:unit_tests",
+    "//atlas-browser/src/atlas_browser/features/privacy:unit_tests",
+  ]
+}

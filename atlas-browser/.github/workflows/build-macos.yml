@@ -1,0 +1,110 @@
+# Atlas Browser - macOS Build Workflow
+name: Build macOS
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build type'
+        required: true
+        default: 'Debug'
+        type: choice
+        options:
+          - Debug
+          - Release
+
+env:
+  CHROMIUM_VERSION: "128.0.6613.84"
+
+jobs:
+  build:
+    name: Build macOS (${{ inputs.build_type || 'Debug' }})
+    runs-on: macos-14  # Apple Silicon
+    timeout-minutes: 480  # 8 hours
+
+    steps:
+      - name: Checkout Atlas Browser
+        uses: actions/checkout@v4
+        with:
+          path: atlas-browser
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Setup depot_tools
+        run: |
+          git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git ~/depot_tools
+          echo "$HOME/depot_tools" >> $GITHUB_PATH
+
+      - name: Cache Chromium source
+        uses: actions/cache@v4
+        id: chromium-cache
+        with:
+          path: ~/chromium
+          key: chromium-macos-arm64-${{ env.CHROMIUM_VERSION }}
+          restore-keys: |
+            chromium-macos-arm64-
+
+      - name: Fetch Chromium (if not cached)
+        if: steps.chromium-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/chromium && cd ~/chromium
+          fetch --nohooks --no-history chromium
+          cd src
+          git checkout tags/${{ env.CHROMIUM_VERSION }}
+          gclient sync --nohooks
+
+      - name: Run hooks
+        run: |
+          cd ~/chromium/src
+          gclient runhooks
+
+      - name: Link Atlas Browser
+        run: |
+          ln -sf $GITHUB_WORKSPACE/atlas-browser ~/chromium/src/atlas-browser
+
+      - name: Generate build files
+        run: |
+          cd ~/chromium/src
+          BUILD_TYPE="${{ inputs.build_type || 'Debug' }}"
+          
+          mkdir -p out/Atlas${BUILD_TYPE}
+          
+          cat > out/Atlas${BUILD_TYPE}/args.gn << EOF
+          import("//atlas-browser/args.gn")
+          target_os = "mac"
+          target_cpu = "arm64"
+          is_debug = $( [ "$BUILD_TYPE" == "Debug" ] && echo "true" || echo "false" )
+          is_component_build = $( [ "$BUILD_TYPE" == "Debug" ] && echo "true" || echo "false" )
+          EOF
+          
+          gn gen out/Atlas${BUILD_TYPE}
+
+      - name: Build
+        run: |
+          cd ~/chromium/src
+          BUILD_TYPE="${{ inputs.build_type || 'Debug' }}"
+          autoninja -C out/Atlas${BUILD_TYPE} atlas_browser
+
+      - name: Code sign (Release only)
+        if: inputs.build_type == 'Release'
+        env:
+          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+        run: |
+          if [ -n "$APPLE_SIGNING_IDENTITY" ]; then
+            cd ~/chromium/src/out/AtlasRelease
+            codesign --force --deep --sign "$APPLE_SIGNING_IDENTITY" "Atlas Browser.app"
+          fi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: atlas-browser-macos-${{ inputs.build_type || 'Debug' }}
+          path: ~/chromium/src/out/Atlas*/*.app
+          retention-days: 7

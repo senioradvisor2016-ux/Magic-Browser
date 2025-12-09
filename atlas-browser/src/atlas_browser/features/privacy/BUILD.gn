@@ -1,0 +1,41 @@
+# Copyright 2025 Atlas Browser Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license.
+
+# =============================================================================
+# Privacy Feature
+# =============================================================================
+
+component("privacy") {
+  output_name = "atlas_privacy"
+  
+  sources = [
+    "tracker_blocker.cc",
+    "tracker_blocker.h",
+  ]
+  
+  deps = [
+    "//base",
+    "//url",
+  ]
+  
+  defines = [ "ATLAS_PRIVACY_IMPLEMENTATION" ]
+}
+
+# =============================================================================
+# Unit Tests
+# =============================================================================
+
+source_set("unit_tests") {
+  testonly = true
+  
+  sources = [
+    "tracker_blocker_unittest.cc",
+  ]
+  
+  deps = [
+    ":privacy",
+    "//base/test:test_support",
+    "//testing/gtest",
+    "//url",
+  ]
+}

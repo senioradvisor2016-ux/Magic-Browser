@@ -1,0 +1,255 @@
+// Copyright 2025 Atlas Browser Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license.
+
+module atlas.agent.mojom;
+
+import "mojo/public/mojom/base/string16.mojom";
+import "ui/gfx/geometry/mojom/geometry.mojom";
+import "url/mojom/url.mojom";
+
+// =============================================================================
+// Enums
+// =============================================================================
+
+// Types of actions the agent can perform
+enum ActionType {
+  kClick,        // Click on an element
+  kType,         // Type text into an input
+  kScroll,       // Scroll the page or to an element
+  kHover,        // Hover over an element
+  kPressKey,     // Press a keyboard key
+  kNavigate,     // Navigate to a URL
+  kWait,         // Wait for a condition
+  kScreenshot,   // Take a screenshot
+  kExtract,      // Extract data from page
+  kDone,         // Task is complete
+};
+
+// Status of an agent task
+enum TaskStatus {
+  kPending,      // Not yet started
+  kRunning,      // Currently executing
+  kPaused,       // Temporarily paused
+  kCompleted,    // Successfully completed
+  kFailed,       // Failed with error
+  kCancelled,    // Cancelled by user
+};
+
+// =============================================================================
+// Data Structures
+// =============================================================================
+
+// Information about a DOM element
+struct ElementInfo {
+  string unique_id;           // Unique identifier for this element
+  string tag_name;            // HTML tag (e.g., "BUTTON", "INPUT")
+  string? id;                 // Element ID attribute
+  string? class_name;         // Element class attribute
+  string? text_content;       // Visible text content (truncated)
+  string? aria_label;         // Accessibility label
+  string? aria_role;          // Accessibility role
+  string? placeholder;        // Input placeholder text
+  string? href;               // Link href (for <a> elements)
+  string? src;                // Image/media source
+  string? value;              // Input value
+  string? name;               // Form element name
+  string? type;               // Input type (text, submit, etc.)
+  string css_selector;        // CSS selector to target this element
+  string xpath;               // XPath to target this element
+  gfx.mojom.Rect bounding_box; // Position and size in viewport
+  bool is_visible;            // Currently visible in viewport
+  bool is_clickable;          // Can be clicked
+  bool is_editable;           // Can receive text input
+  bool is_focusable;          // Can receive focus
+  bool is_checked;            // Checkbox/radio checked state
+  bool is_disabled;           // Element is disabled
+  int32 tab_index;            // Tab order (-1 if not focusable)
+  array<string> event_listeners; // Attached event types
+};
+
+// Current state of the page
+struct PageState {
+  url.mojom.Url url;          // Current page URL
+  string title;               // Page title
+  bool is_loading;            // Page is still loading
+  bool has_alert;             // Alert/confirm/prompt is open
+  string? alert_text;         // Text of open alert
+  int32 scroll_x;             // Horizontal scroll position
+  int32 scroll_y;             // Vertical scroll position
+  int32 viewport_width;       // Viewport width
+  int32 viewport_height;      // Viewport height
+  int32 document_width;       // Full document width
+  int32 document_height;      // Full document height
+};
+
+// An action for the agent to perform
+struct AgentAction {
+  ActionType type;            // Type of action
+  string? selector;           // CSS selector for target element
+  string? value;              // Text to type, URL to navigate, etc.
+  int32? x;                   // X coordinate (for click without selector)
+  int32? y;                   // Y coordinate (for click without selector)
+  string? key;                // Key to press (for kPressKey)
+  array<string>? modifiers;   // Modifier keys (ctrl, shift, alt, meta)
+  int32? delay_ms;            // Delay after action (milliseconds)
+  string? wait_for;           // Selector to wait for (for kWait)
+  int32? timeout_ms;          // Timeout for wait operations
+};
+
+// Result of executing an action
+struct ActionResult {
+  bool success;               // Action succeeded
+  string? error_message;      // Error description if failed
+  string? extracted_data;     // Data extracted (for kExtract)
+  string? screenshot_base64;  // Screenshot after action
+  PageState? new_state;       // Page state after action
+  array<string>? matched_elements; // Elements matching selector
+};
+
+// A single step in the agent's execution
+struct AgentStep {
+  int32 step_number;          // Step index (1-based)
+  string thought;             // Agent's reasoning
+  AgentAction action;         // Action to perform
+  ActionResult result;        // Result of the action
+  double timestamp;           // Unix timestamp
+  double duration_ms;         // How long the step took
+};
+
+// Result of a completed task
+struct TaskResult {
+  TaskStatus status;          // Final status
+  string? final_answer;       // Answer/summary from agent
+  array<AgentStep> steps;     // All steps taken
+  double duration_seconds;    // Total execution time
+  int32 total_tokens_used;    // LLM tokens consumed
+  string? error_message;      // Error if failed
+};
+
+// =============================================================================
+// Interfaces: Browser → Renderer
+// =============================================================================
+
+// Interface for the browser to control agent operations in the renderer
+interface AgentRendererClient {
+  // Get the full accessible DOM structure as JSON
+  GetAccessibleDOM() => (string dom_json, array<ElementInfo> elements);
+  
+  // Get only interactive elements (for faster LLM context)
+  GetInteractiveElements() => (array<ElementInfo> elements);
+  
+  // Get current page state
+  GetPageState() => (PageState state);
+  
+  // Perform an agent action on the page
+  PerformAction(AgentAction action) => (ActionResult result);
+  
+  // Highlight an element (for visual feedback)
+  HighlightElement(string selector, bool show);
+  
+  // Show labels on all interactive elements
+  ShowElementLabels(bool show) => (int32 labeled_count);
+  
+  // Scroll to make an element visible
+  ScrollToElement(string selector) => (bool success);
+  
+  // Execute JavaScript and return result
+  ExecuteScript(string script) => (string? result, string? error);
+  
+  // Get screenshot of visible area
+  CaptureScreenshot() => (string base64_png);
+  
+  // Fill a form with multiple values
+  FillForm(map<string, string> field_values) => (ActionResult result);
+};
+
+// =============================================================================
+// Interfaces: Renderer → Browser
+// =============================================================================
+
+// Interface for the renderer to communicate with the browser's agent service
+interface AgentBrowserHost {
+  // Notify browser of navigation events
+  OnNavigationStarted(url.mojom.Url url);
+  OnNavigationCompleted(url.mojom.Url url, bool success);
+  OnNavigationFailed(url.mojom.Url url, string error);
+  
+  // Notify browser of page state changes
+  OnPageStateChanged(PageState state);
+  OnDOMContentLoaded();
+  OnPageFullyLoaded();
+  
+  // Notify browser of significant DOM mutations
+  OnDOMMutation(string mutation_summary);
+  
+  // Request LLM decision from browser
+  RequestAgentDecision(
+    string task,
+    string current_state_json,
+    string? screenshot_base64
+  ) => (AgentAction action);
+  
+  // Log agent activity
+  LogAgentStep(AgentStep step);
+  LogAgentError(string error);
+  
+  // Handle alerts/dialogs
+  OnAlertOpened(string text);
+  OnAlertClosed(bool accepted);
+  
+  // Report element interaction
+  OnElementClicked(string selector);
+  OnElementFocused(string selector);
+  OnFormSubmitted(string form_selector);
+};
+
+// =============================================================================
+// Service Interface
+// =============================================================================
+
+// Main agent service interface (browser-side)
+interface AgentService {
+  // Start a new agent task
+  StartTask(string task_description, url.mojom.Url? starting_url)
+    => (string task_id);
+  
+  // Pause a running task
+  PauseTask(string task_id) => (bool success);
+  
+  // Resume a paused task
+  ResumeTask(string task_id) => (bool success);
+  
+  // Cancel a task
+  CancelTask(string task_id) => (bool success);
+  
+  // Get current task status
+  GetTaskStatus(string task_id) => (TaskStatus status, int32 current_step);
+  
+  // Get task result (blocks until complete or timeout)
+  GetTaskResult(string task_id, int32 timeout_ms) => (TaskResult result);
+  
+  // Perform a single action (without full task)
+  PerformSingleAction(AgentAction action) => (ActionResult result);
+  
+  // Query page content with natural language
+  QueryPage(string question) => (string answer);
+  
+  // Configure agent settings
+  Configure(AgentConfig config) => (bool success);
+};
+
+// Agent configuration
+struct AgentConfig {
+  string provider;            // "anthropic", "openai", "local"
+  string model;               // Model name
+  string? api_key;            // API key (for remote providers)
+  string? api_endpoint;       // Custom endpoint URL
+  int32 max_steps;            // Maximum steps per task
+  int32 step_timeout_ms;      // Timeout per step
+  int32 task_timeout_ms;      // Overall task timeout
+  bool enable_vision;         // Use screenshots
+  bool enable_element_labels; // Show element labels
+  bool verbose_logging;       // Detailed logging
+  float temperature;          // LLM temperature (0-1)
+  array<string> blocked_domains; // Domains agent cannot navigate to
+};
