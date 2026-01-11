@@ -1,0 +1,43 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/PG300Controller.dir/Source/AlphaJunoBank.cpp.o"
+  "CMakeFiles/PG300Controller.dir/Source/AlphaJunoBank.cpp.o.d"
+  "CMakeFiles/PG300Controller.dir/Source/Main.cpp.o"
+  "CMakeFiles/PG300Controller.dir/Source/Main.cpp.o.d"
+  "CMakeFiles/PG300Controller.dir/Source/MainComponent.cpp.o"
+  "CMakeFiles/PG300Controller.dir/Source/MainComponent.cpp.o.d"
+  "CMakeFiles/PG300Controller.dir/Source/MidiEngine.cpp.o"
+  "CMakeFiles/PG300Controller.dir/Source/MidiEngine.cpp.o.d"
+  "CMakeFiles/PG300Controller.dir/Source/ParameterControl.cpp.o"
+  "CMakeFiles/PG300Controller.dir/Source/ParameterControl.cpp.o.d"
+  "CMakeFiles/PG300Controller.dir/Source/SysEx.cpp.o"
+  "CMakeFiles/PG300Controller.dir/Source/SysEx.cpp.o.d"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.cpp.o"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_audio_basics/juce_audio_basics.cpp.o.d"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_audio_devices/juce_audio_devices.cpp.o"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_audio_devices/juce_audio_devices.cpp.o.d"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_core/juce_core.cpp.o"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_core/juce_core.cpp.o.d"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_core/juce_core_CompilationTime.cpp.o"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_core/juce_core_CompilationTime.cpp.o.d"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_data_structures/juce_data_structures.cpp.o"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_data_structures/juce_data_structures.cpp.o.d"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_events/juce_events.cpp.o"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_events/juce_events.cpp.o.d"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_graphics/juce_graphics.cpp.o"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_graphics/juce_graphics.cpp.o.d"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o.d"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_graphics/juce_graphics_Sheenbidi.c.o"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_graphics/juce_graphics_Sheenbidi.c.o.d"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.cpp.o"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_gui_basics/juce_gui_basics.cpp.o.d"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_gui_extra/juce_gui_extra.cpp.o"
+  "CMakeFiles/PG300Controller.dir/_deps/juce-src/modules/juce_gui_extra/juce_gui_extra.cpp.o.d"
+  "PG300Controller_artefacts/PG-300 Controller"
+  "PG300Controller_artefacts/PG-300 Controller.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang C CXX)
+  include(CMakeFiles/PG300Controller.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
